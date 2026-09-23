@@ -7,35 +7,31 @@ import logging
 import time
 
 #Define variables
-url = 'https://api.tfl.gov.uk/BikePoint/'
+url = 'https://api.tfl.gov.uk/BikePoint/{ladida}'
 maxAttempts = 15
-interval = datetime.minute # Needs work
+delay = 10 #seconds
 
-#Create a folder for our reponse to live
+#Create a save directory and filenames
 saveDir = 'data'
 os.makedirs(saveDir, exist_ok = True)
-
-#Create filename
 timestamp = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
 filename = f'{saveDir}/bikepoint_data_{timestamp}.json'
 
-#Send get request
+#Send API get request
 for i in range(maxAttempts):
     response = requests.get(url)
     statusCode = response.status_code
-    if response.status_code == 200:
-        print(f'API call successful.')
+
+    #Status code handling
+    if 200 <= statusCode < 300:
+        data = response.json() # save the json response to a variable
+        with open(filename, 'w') as file:
+            json.dump(data, file) #open the output file and write the API data to it as JSON
+        print(f'Yayyyy it worked good job! {filename} has been saved to the data folder.')
         break
-    elif response.status_code < 200:
-        print('No data retrieved. The call will be attempted again in 15 seconds.')
-        time.sleep(interval)
+    elif statusCode < 200 or statusCode >= 500:
+        print(f'Attempt {i+1}: {statusCode}\nRetrying in {delay} seconds.')
+        time.sleep(delay) # pause the code for x seconds before continuing
     else:
         f'Fatal error: {statusCode}'
         break
-
-#Convert the JSON response into a python variable
-data = response.json()
-
-#Open the output file and write the API data to it as JSON
-with open(filename, 'w') as file:
-    json.dump(data, file)
