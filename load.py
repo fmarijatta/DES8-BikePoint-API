@@ -18,8 +18,16 @@ s3_client = boto3.client(
 )
 
 #Define filenames (test)
-localFilename = f'data/bikepoint_data_2026-09-28 10-26-07.json'
-uploadFilename = 'bikepoint_data_2026-09-28 10-26-07.json'
+dataDir = 'data/'
+filesToUpload = os.listdir(dataDir)
 
-#Upload file
-s3_client.upload_file(localFilename, AWS_BUCKET_NAME, uploadFilename)
+for filename in filesToUpload:
+    localFilepath = f'{dataDir}{filename}'
+    uploadFilename = filename
+    try:
+        # Upload file
+        s3_client.upload_file(localFilepath, AWS_BUCKET_NAME, uploadFilename)
+        print(f'{filename} uploaded successfully.')
+        os.remove(localFilepath)
+    except Exception as e:
+        print(f'An error has occured: {e}')
