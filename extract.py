@@ -20,7 +20,7 @@ os.makedirs(logDir, exist_ok = True)
 
 timestamp = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
 filename = f'{saveDir}/bikepoint_data_{timestamp}.json'
-logFilename = f'{logDir}/{timestamp}.json'
+logFilename = f'{logDir}/extract_{timestamp}.log'
 
 #Configure logs
 logging.basicConfig(
