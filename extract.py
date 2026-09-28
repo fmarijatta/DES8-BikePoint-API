@@ -55,7 +55,7 @@ for i in range(maxAttempts):
                 logger.error(f'A write error has occurred: {e}')
         else:
             print(f'Response is empty.')
-            logger.info(f'A write error has occurred: {e}')
+            logger.info(f'Response is empty.')
         break
     elif statusCode < 200 or statusCode >= 500:
         print(f'Attempt {i+1}: {statusCode}.\nRetrying in {delay} seconds.')
