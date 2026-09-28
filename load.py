@@ -10,13 +10,16 @@ AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
 
+#Create s3 client
 s3_client = boto3.client(
     's3',
     aws_access_key_id = AWS_ACCESS_KEY,
     aws_secret_access_key = AWS_SECRET_ACCESS_KEY
 )
 
+#Define filenames (test)
 localFilename = f'data/bikepoint_data_2026-09-28 10-26-07.json'
 uploadFilename = 'bikepoint_data_2026-09-28 10-26-07.json'
 
+#Upload file
 s3_client.upload_file(localFilename, AWS_BUCKET_NAME, uploadFilename)
