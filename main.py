@@ -1,6 +1,10 @@
+import os
 from modules.log_initialise import setup_logging
 from modules.extract_api import extract_json
+from modules.load_data import load_files_to_s3
 from datetime import datetime
+from dotenv import load_dotenv
+
 
 #Define variables
 url = 'https://api.tfl.gov.uk/BikePoint/'
@@ -9,14 +13,22 @@ delay = 10 #seconds
 timestamp = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
 saveDir = 'data'
 
+#Load environment variables
+load_dotenv()
 
+AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
+
+#Initialise logger
 logger = setup_logging('log', timestamp)
 logger.info('Logger successfully initialised.')
 
-extract_json(
-        url = url,
-        timestamp = timestamp,
-        saveDir = saveDir,
-        maxAttempts = maxAttempts,
-        delay = delay
+#Extract data
+extract_json(url, timestamp, saveDir, maxAttempts, delay)
+
+#Load to s3
+load_files_to_s3(saveDir, AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, AWS_BUCKET_NAME
+    #data_dir:str, aws_access_key:str, aws_secret_access_key:str, aws_bucket_name:str
+
 )
