@@ -14,7 +14,7 @@ def load_files_to_s3(data_dir:str, aws_access_key:str, aws_secret_access_key:str
     """
 
     #Create the logger and confirm that it's been successfully set up
-    logger = logging.getLogger()
+    logger = logging.getLogger(__name__)
 
     #Create s3 client
     s3_client = boto3.client(

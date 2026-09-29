@@ -11,7 +11,6 @@ def setup_logging(timestamp:str, logDir:str, debug = False):
         logDir (str): where you want your logs saved
         timestamp (str): the timestamp will be the log filename
     """
-    logDir = 'log'
     os.makedirs(logDir, exist_ok = True)
 
     logFilename = f'{logDir}/{timestamp}.log'
@@ -29,6 +28,6 @@ def setup_logging(timestamp:str, logDir:str, debug = False):
         )
     else:
         print('Debug kwarg must be boolean.')
-
+    print(logFilename)
     #Create the logger and confirm that it's been successfully set up
     return logging.getLogger()
