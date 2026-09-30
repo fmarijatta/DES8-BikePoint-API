@@ -34,8 +34,8 @@ def load_files_to_s3(data_dir:str, aws_access_key:str, aws_secret_access_key:str
             # Upload file
             s3_client.upload_file(localFilepath, aws_bucket_name, uploadFilename)
             print(f'{filename} uploaded successfully.')
-            logging.info(f'{filename} uploaded successfully.')
+            logger.info(f'{filename} uploaded successfully.')
             os.remove(localFilepath)
         except Exception as e:
             print(f'An error has occured: {e}')
-            logging.error(f'{filename} failed to upload. Error: {e}')
+            logger.error(f'{filename} failed to upload. Error: {e}')
