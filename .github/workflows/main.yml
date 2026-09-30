@@ -1,0 +1,30 @@
+name: Bike Point Ingestion
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch: # Will give us a button to say "run"
+
+jobs: 
+  build:
+    runs-on: windows-latest
+    environment: BikePoint DES8
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v7
+      
+      - name: Setup a python environment
+        uses: actions/setup-python@v7
+        with:
+          python-version: 3.12.10
+      
+      - name: Install packages
+        run: pip install -r requirements.txt
+      
+      - name: Run python
+        env: # Set up the env so python-dotenv can read these variables
+          AWS_ACCESS_KEY: ${{secrets.AWS_ACCESS_KEY}}
+          AWS_BUCKET_NAME: ${{secrets.AWS_BUCKET_NAME}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        run: python main.py
+          
