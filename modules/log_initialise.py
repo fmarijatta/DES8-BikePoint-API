@@ -18,7 +18,7 @@ def setup_logging(timestamp:str, logDir:str, debug = False):
         logging.basicConfig(
             filename = logFilename,
             format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            level = logging.INFO
+            level = logging.DEBUG
         )
     elif debug == False:
         logging.basicConfig(
